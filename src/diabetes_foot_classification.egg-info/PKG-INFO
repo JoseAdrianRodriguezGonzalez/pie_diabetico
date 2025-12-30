@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: diabetes-foot-classification
+Version: 0.1.0
+Summary: Binary classification of diabetic foot by the dataset PartA usin CNNs
+Requires-Python: <3.13,>=3.10
+Requires-Dist: torch==2.0.1
+Requires-Dist: torchvision==0.15.2
+Requires-Dist: numpy
+Requires-Dist: opencv-python
+Requires-Dist: pillow
+Requires-Dist: scikit-learn
+Requires-Dist: matplotlib
+Requires-Dist: tqdm

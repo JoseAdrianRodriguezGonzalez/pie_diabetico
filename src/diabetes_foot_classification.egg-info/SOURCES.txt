@@ -1,0 +1,13 @@
+pyproject.toml
+src/__init__.py
+src/diabetes_foot_classification.egg-info/PKG-INFO
+src/diabetes_foot_classification.egg-info/SOURCES.txt
+src/diabetes_foot_classification.egg-info/dependency_links.txt
+src/diabetes_foot_classification.egg-info/requires.txt
+src/diabetes_foot_classification.egg-info/top_level.txt
+src/ingest/__init__.py
+src/ingest/discover.py
+src/ingest/main.py
+src/model/vgg16.py
+src/utils/__init__.py
+src/utils/write_info.py

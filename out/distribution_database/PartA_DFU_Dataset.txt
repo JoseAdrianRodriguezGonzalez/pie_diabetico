@@ -1,0 +1,5 @@
+--------
+Normal -----> 641
+Abnormal -----> 1038
+Titulo -----> Distribución de base de datos
+--------
