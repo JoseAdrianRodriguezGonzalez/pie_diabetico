@@ -1,2 +1,6 @@
 data/
 docs/
+# python cache
+*.pyc
+__pycache__/
+*.pyo
