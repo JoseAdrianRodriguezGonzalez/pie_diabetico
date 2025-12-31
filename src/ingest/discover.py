@@ -1,6 +1,4 @@
 import os
-from collections import Counter
-from os.path import isdir
 def images(src,exts=("jpg","png","jpeg")):
     """Given a certain datasets, it will divide the and count the quantity of samples
     """
@@ -10,6 +8,5 @@ def images(src,exts=("jpg","png","jpeg")):
         if not os.path.isdir(new_path):
             continue 
         files= [image for image in os.listdir(new_path) if image.lower().endswith(exts)]
-        db[folder]=len(files)
+        db[folder]=files
     return db
-
