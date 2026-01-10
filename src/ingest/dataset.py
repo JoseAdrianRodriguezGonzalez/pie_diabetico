@@ -1,4 +1,5 @@
 from torch.utils.data import Dataset
+import torch
 from PIL import Image
 class DFU(Dataset):
     def __init__(self,mode,dfu_dict,transforms=None):
@@ -18,13 +19,17 @@ class DFU(Dataset):
                 raise KeyError("Desbalance de imagenes y labels en el split '{split}'")
         self.dfu=dfu_dict
         self.set_mode(mode)
+        unique=sorted(set(self.dfu[mode]["labels"]))
+        self.label_to_index={label:i for i,label in enumerate(unique)}
     def __len__(self):
         return len(self.labels)
     def __getitem__(self, index):
         image=Image.open(self.images[index]).convert("RGB")
-        label=self.labels[index]
+        label_str=self.labels[index]
         if self.transform:
             image=self.transform(image)
+        label = self.label_to_index[label_str]
+        label=torch.tensor(label,dtype=torch.long)
         return image,label  
     def set_mode(self,mode):
         if mode not in self.dfu:
