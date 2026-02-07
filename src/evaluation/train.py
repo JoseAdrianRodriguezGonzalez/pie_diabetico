@@ -22,7 +22,7 @@ def train_routine(train_state,data,model,function,optimizer,device):
         running_accuracy+=(acc_batch- running_accuracy)/(batch_index+1)
     train_state["train_loss"].append(runing_loss)
     train_state["train_acc"].append(running_accuracy)
-def test_routine(train_state,data,model,function,device):
+def eval_routine(train_state,data,model,function,device,prefix="val"):
     running_loss=0.0
     running_accuracy=0.0
     model.eval()
@@ -36,5 +36,5 @@ def test_routine(train_state,data,model,function,device):
             running_loss+=(loss_batch- running_loss)/(batch_index+1) 
             acc_batch= compute_accuracy(y_pred,y)
             running_accuracy+=(acc_batch- running_accuracy)/(batch_index+1) 
-        train_state["test_loss"].append(running_loss)
-        train_state["test_acc"].append(running_accuracy) 
+        train_state[f"{prefix}_loss"].append(running_loss)
+        train_state[f"{prefix}_acc"].append(running_accuracy) 

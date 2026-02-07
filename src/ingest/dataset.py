@@ -2,7 +2,7 @@ from torch.utils.data import Dataset
 import torch
 from PIL import Image
 class DFU(Dataset):
-    def __init__(self,mode,dfu_dict,transforms=None):
+    def __init__(self,mode,dfu_dict,transforms=None,label_to_index=None):
         self.transform=transforms
         self.DFU={}
         required={"train","test"}
@@ -17,10 +17,14 @@ class DFU(Dataset):
                 raise KeyError(f"Split '{split}' mal formado")
             if len(data["images"])!=len(data["labels"]):
                 raise KeyError("Desbalance de imagenes y labels en el split '{split}'")
+
         self.dfu=dfu_dict
         self.set_mode(mode)
-        unique=sorted(set(self.dfu[mode]["labels"]))
-        self.label_to_index={label:i for i,label in enumerate(unique)}
+        if label_to_index is None:
+            unique=sorted(set(self.dfu["train"]["labels"]))
+            self.label_to_index={label:i for i,label in enumerate(unique)}
+        else:
+            self.label_to_index=label_to_index
     def __len__(self):
         return len(self.labels)
     def __getitem__(self, index):
