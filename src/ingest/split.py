@@ -1,5 +1,5 @@
 from sklearn.model_selection import train_test_split
-def stratified(*,images:list[str],labels:list[str],test_size:float=0.15,val_size:float=0.15,seed:int=42,**_:object):
+def stratified(*,images:list[str],labels:list[str],test_size:float=0.10,val_size:float=0.20,seed:int=42,**_:object):
     X_train,X_test,y_train,y_test=train_test_split(images,labels
                             ,test_size=test_size,stratify=labels,random_state=seed)
     val_relative = val_size / (1 - test_size)

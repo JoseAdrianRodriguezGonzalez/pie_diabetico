@@ -28,6 +28,8 @@ def pipeline_ingest(src,args):
                            drop_last=False,
                            pin_memory=args.pin_memory
                            )
+
+    index_to_label = {i: l for l, i in label_to_index.items()}
     test_loader=make_loader(test_df,batch_size=args.batch_size,
                             shuffle=False,num_workers=args.num_workers,drop_last=False,pin_memory=args.pin_memory)
-    return train_loader,val_loader,test_loader
+    return train_loader,val_loader,test_loader,index_to_label
