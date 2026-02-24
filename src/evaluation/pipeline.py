@@ -11,7 +11,7 @@ def complete_routine(args,train_load,val_load,test_load,model,function,optimizer
     #print(train_state)
     eval_routine(train_state, test_load, model,
                  function, device, prefix="test")
-    write_info("../out/accuracy.txt",train_state)
+    write_info("../out/ResNet/accuracy.txt",train_state)
 
     return train_state 
 

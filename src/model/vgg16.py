@@ -75,3 +75,31 @@ def get_efficientnet(
             param.requires_grad = False
 
     return model
+def get_resnet(*,version=50,num_classes=2,pretrained=True,freeze_features=True):
+    weights_map={
+        18: models.ResNet18_Weights.IMAGENET1K_V1,
+        34: models.ResNet34_Weights.IMAGENET1K_V1,
+        50: models.ResNet50_Weights.IMAGENET1K_V1,
+        101: models.ResNet101_Weights.IMAGENET1K_V1,
+        152: models.ResNet152_Weights.IMAGENET1K_V1,
+    }
+    constructors={
+        18: models.resnet18,
+        34: models.resnet34,
+        50: models.resnet50,
+        101: models.resnet101,
+        152: models.resnet152,
+    }
+    if version not in constructors:
+        raise ValueError("Resnet version debe ser 18,34,50,101 o 152")
+    weights = weights_map[version] if pretrained else None
+    model = constructors[version](weights=weights)
+    #cambiar al clasificador
+    in_features= model.fc.in_features
+    model.fc=nn.Linear(in_features,num_classes)
+    if freeze_features:
+        for param in model.parameters():
+            param.requires_grad=False
+        for param in model.fc.parameters():
+            param.requires_grad=True 
+    return model

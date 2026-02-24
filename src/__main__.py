@@ -18,7 +18,7 @@ def main(args):
     curves((train_state["train_acc"],train_state["val_acc"]),("train_acc","val_acc"))
     curves((train_state["train_loss"],train_state["val_loss"]),("train_loss","val_loss"))
     curves((train_state["train_f1_score"],train_state["val_f1_score"]),("train_f1_score","val_f1_score"))
-    plot_confussion_matrix(train_state["cm"],classes,"vgg13","../out/vgg/vgg13/")
+    plot_confussion_matrix(train_state["cm"],classes,"ResNet-152","../out/ResNet/152/")
 if __name__=="__main__":
     args=Namespace(num_epochs=16,   
                    batch_size=4,
