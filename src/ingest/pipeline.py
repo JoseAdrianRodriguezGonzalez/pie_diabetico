@@ -8,7 +8,7 @@ def pipeline_ingest(src,args):
     diccionario=images(src)
     diccionario_formato={"images":[img for label,images in diccionario.items() for img in images],
                          "labels":[label for label,images in diccionario.items() for _ in images]}
-    datos_divididos=stratified(**diccionario_formato)
+    datos_divididos=stratified(**diccionario_formato,seed=args.seed)
     label_to_index = {
         l: i for i, l in enumerate(sorted(set(datos_divididos["train"]["labels"])))
     }

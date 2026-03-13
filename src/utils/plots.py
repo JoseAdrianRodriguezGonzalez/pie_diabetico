@@ -1,7 +1,11 @@
 import seaborn as sns 
+import matplotlib
+matplotlib.use("Agg")
+
+import matplotlib.pyplot as plt
 import matplotlib.pyplot as plt
 import os
-def curves(tupla_values,nombres):
+def curves(tupla_values,nombres,model_name="Model",path="out"):
     plt.figure(figsize=(10,4))
     for valores,nombres in zip(tupla_values,nombres):
         epochs = list(range(1, len(valores) + 1))
@@ -9,7 +13,10 @@ def curves(tupla_values,nombres):
     plt.xlabel("Epoch")
     plt.legend()
     plt.grid(True)
-    plt.show()
+    plt.tight_layout() 
+    plot_path = os.path.join(path,f"{model_name}_curve.png")
+    plt.savefig(plot_path, dpi=200)
+    plt.close() 
 def plot_confussion_matrix(cm,classes,model_name="Model",path="out"): 
     sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
                 xticklabels=classes, yticklabels=classes)

@@ -103,3 +103,56 @@ def get_resnet(*,version=50,num_classes=2,pretrained=True,freeze_features=True):
         for param in model.fc.parameters():
             param.requires_grad=True 
     return model
+
+
+def get_googlenet(
+    *,
+    num_classes: int = 2,
+    pretrained: bool = True,
+    freeze_features: bool = True,
+):
+
+    weights = (
+        models.GoogLeNet_Weights.IMAGENET1K_V1
+        if pretrained else None
+    )
+
+    model = models.googlenet(
+        weights=weights,
+    )
+
+    # -------- classifier --------
+    in_features = model.fc.in_features
+    model.fc = nn.Linear(in_features, num_classes)
+
+    # -------- freeze --------
+    if freeze_features:
+        for param in model.parameters():
+            param.requires_grad = False
+        for param in model.fc.parameters():
+            param.requires_grad = True
+
+    return model
+def get_alexnet(
+    *,
+    num_classes: int = 2,
+    pretrained: bool = True,
+    freeze_features: bool = True,
+):
+
+    weights = (
+        models.AlexNet_Weights.IMAGENET1K_V1
+        if pretrained else None
+    )
+
+    model = models.alexnet(weights=weights)
+
+    # -------- classifier --------
+    model.classifier[6] = nn.Linear(4096, num_classes)
+
+    # -------- freeze --------
+    if freeze_features:
+        for param in model.features.parameters():
+            param.requires_grad = False
+
+    return model
