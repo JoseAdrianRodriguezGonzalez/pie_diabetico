@@ -8,6 +8,13 @@ def write_info(src,diccionario):
         f.write("--------\n")
     print("archivo escrito con exito y guardado en ",src)
 def metrics_final(src,input):
+    cm = input["cm"]
+
+    tn, fp, fn, tp = cm.ravel()
     df=pd.DataFrame({"test_acc": input["test_acc"],
-        "test_f1_score": input["test_f1_score"]})
+        "test_f1_score": input["test_f1_score"],
+        "tn": [tn],
+        "fp": [fp],
+        "fn": [fn],
+        "tp": [tp],})
     df.to_csv(src,index=False)

@@ -10,7 +10,8 @@ def pipeline_ingest(src,args):
                          "labels":[label for label,images in diccionario.items() for _ in images]}
     datos_divididos=stratified(**diccionario_formato,seed=args.seed)
     label_to_index = {
-        l: i for i, l in enumerate(sorted(set(datos_divididos["train"]["labels"])))
+        "Abnormal": 0,
+        "Normal": 1
     }
     train_df=DFU("train",datos_divididos,dfu_transforms(),label_to_index)
     val_df=DFU("val",datos_divididos,dfu_transforms(),label_to_index)

@@ -28,3 +28,13 @@ def plot_confussion_matrix(cm,classes,model_name="Model",path="out"):
     plt.savefig(plot_path, dpi=200)
     plt.close()
     print(f"[INFO] Matriz de confusión guardada en {plot_path}")
+import os
+def save_boxplot(df, model_name, submodel, metric, output_dir):
+    plt.figure()
+    sns.boxplot(y=df[metric])
+    plt.title(f"{model_name} - {submodel} ({metric})")
+    plt.ylabel(metric)
+    os.makedirs(output_dir, exist_ok=True)
+    filename = f"{model_name}_{submodel}_{metric}.png"
+    plt.savefig(os.path.join(output_dir, filename))
+    plt.close()

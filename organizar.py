@@ -1,5 +1,6 @@
 import os
-import pandas as pd 
+import pandas as pd
+from src.utils.plots import save_boxplot
 def extract_files(src_root):
     for folder in sorted(os.listdir(src_root)):
         path_test=os.path.join(src_root,folder)
@@ -10,12 +11,21 @@ def extract_files(src_root):
             if subdirs:
                 diccionario={"test_acc":[],
                             "test_f1_score":[],
-                             "submodel":[]}
+                             "submodel":[],
+                             "tn": [],
+                            "fp": [],
+                            "fn": [],
+                            "tp": []}
                 for submodel in sorted(subdirs):
                     submodel_path = os.path.join(model_path, submodel)
                     df=pd.read_csv(os.path.join(submodel_path,"test_metrics.csv"))
                     diccionario["test_acc"].append(df["test_acc"].iloc[0])
                     diccionario["test_f1_score"].append(df["test_f1_score"].iloc[0])
+
+                    diccionario["tn"].append(df["tn"].iloc[0])
+                    diccionario["fp"].append(df["fp"].iloc[0])
+                    diccionario["fn"].append(df["fn"].iloc[0])
+                    diccionario["tp"].append(df["tp"].iloc[0])
                     diccionario["submodel"].append(submodel)
                 df_dicc=pd.DataFrame(diccionario)
                 df_dicc.to_csv(os.path.join(model_path,"test_metrics.csv"),
@@ -59,6 +69,12 @@ def analyze_excels(excel_dir):
         for submodel, df in sheets.items():
             if "test_acc" not in df.columns:
                 continue
+            save_boxplot(df, model_name, submodel, "test_acc", "boxplots")
+            save_boxplot(df, model_name, submodel, "test_f1_score", "boxplots")
+            mean_tn = df["tn"].mean()
+            mean_fp = df["fp"].mean()
+            mean_fn = df["fn"].mean()
+            mean_tp = df["tp"].mean()
             stats = {
                 "model": model_name,
                 "submodel": submodel,
@@ -66,9 +82,21 @@ def analyze_excels(excel_dir):
                 "std_acc": df["test_acc"].std(),
                 "min_acc": df["test_acc"].min(),
                 "max_acc": df["test_acc"].max(),
+                "q1_acc": df["test_acc"].quantile(0.25),
+                "median_acc": df["test_acc"].quantile(0.50),
+                "q3_acc": df["test_acc"].quantile(0.75),
                 "mean_f1": df["test_f1_score"].mean(),
                 "std_f1": df["test_f1_score"].std(),
-                "n_folds": len(df)
+                "min_f1": df["test_f1_score"].min(),
+                "max_f1": df["test_f1_score"].max(),
+                "q1_f1": df["test_f1_score"].quantile(0.25),
+                "median_f1": df["test_f1_score"].quantile(0.50),
+                "q3_f1": df["test_f1_score"].quantile(0.75),
+                "n_folds": len(df),
+                "mean_tn": mean_tn,
+                "mean_fp": mean_fp,
+                "mean_fn": mean_fn,
+                "mean_tp": mean_tp,
             }
             results.append(stats)
     return pd.DataFrame(results)
