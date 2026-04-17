@@ -57,7 +57,7 @@ if __name__=="__main__":
                     num_workers=6,
                     drop_last=True,
                     pin_memory=True,
-                   test_number=10,
+                        test_number=5,
                    models=["efficientnet","vgg","resnet","googlenet","alexnet"],
                    submodels={"efficientnet":["B0","B1","B2","B3","B4","B5","B6","B7"],
                               "vgg":["11","13","16","19"],

@@ -5,13 +5,13 @@ def compute_accuracy(y_pred,y_target):
     n_correct = torch.eq(y_pred_indices,y_target).sum().item()
     return n_correct/y_target.size(0)
 def compute_f1(y_pred,y_target):
-    _,y_pred_indices = y_pred.max(dim=1)
+    
     f1_scores=[]
     for cls in [0,1]:
 
-        tp = ((y_pred_indices==cls) & (y_target==cls)).sum().item()
-        fp = ((y_pred_indices==cls) & (y_target!=cls)).sum().item()
-        fn = ((y_pred_indices!=cls) & (y_target==cls)).sum().item()
+        tp = ((y_pred==cls) & (y_target==cls)).sum().item()
+        fp = ((y_pred==cls) & (y_target!=cls)).sum().item()
+        fn = ((y_pred!=cls) & (y_target==cls)).sum().item()
         
 
         precision=tp /(tp+fp +1e-8)
