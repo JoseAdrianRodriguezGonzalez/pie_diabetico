@@ -58,13 +58,20 @@ if __name__=="__main__":
                     drop_last=True,
                     pin_memory=True,
                         test_number=5,
-                   models=["efficientnet","vgg","resnet","googlenet","alexnet"],
-                   submodels={"efficientnet":["B0","B1","B2","B3","B4","B5","B6","B7"],
-                              "vgg":["11","13","16","19"],
-                              "resnet":["34","50","18","101","152"],
-                              "googlenet":[],
-                              "alexnet":[]
-                              },
+                   models=["vit","swin"],
+                   submodels={                   
+                        "vit":["b_16","b_32"],
+                        "swin":["t","s"]
+                   },
+                   #models=["efficientnet","vgg","resnet","googlenet","alexnet","vit","swin"],
+                   #submodels={"efficientnet":["B0","B1","B2","B3","B4","B5","B6","B7"],
+#                              "vgg":["11","13","16","19"],
+#                              "resnet":["34","50","18","101","152"],
+#                              "googlenet":[],
+#                              "alexnet":[],
+#                              "vit":["b_16","b_32"],
+#                                "swin":["t","s"]
+#                              },
                    src="../out/tests",
                    seed=42
                 )

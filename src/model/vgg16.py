@@ -156,3 +156,61 @@ def get_alexnet(
             param.requires_grad = False
 
     return model
+def get_vit(*,version="b_16",num_classes=2,pretrained=True,freeze_features=True):
+    weights_map={
+        "b_16":models.ViT_B_16_Weights.IMAGENET1K_V1,
+        "b_32":models.ViT_B_32_Weights.IMAGENET1K_V1,
+        "l_16":models.ViT_L_16_Weights.IMAGENET1K_V1,
+    }
+    constructors={
+        "b_16":models.vit_b_16,
+        "b_32":models.vit_b_32,
+        "l_16":models.vit_l_16
+    }
+    weights=weights_map[version] if pretrained else None 
+    model =constructors[version](weights=weights)
+    in_features=model.heads.head.in_features
+    model.heads.head = nn.Linear(in_features, num_classes)
+
+    # freeze
+    if freeze_features:
+        for param in model.parameters():
+            param.requires_grad = False
+        for param in model.heads.parameters():
+            param.requires_grad = True
+
+    return model
+def get_swin(
+    *,
+    version="t",  # t, s, b
+    num_classes=2,
+    pretrained=True,
+    freeze_features=True
+):
+    weights_map = {
+        "t": models.Swin_T_Weights.IMAGENET1K_V1,
+        "s": models.Swin_S_Weights.IMAGENET1K_V1,
+        "b": models.Swin_B_Weights.IMAGENET1K_V1,
+    }
+
+    constructors = {
+        "t": models.swin_t,
+        "s": models.swin_s,
+        "b": models.swin_b,
+    }
+
+    weights = weights_map[version] if pretrained else None
+    model = constructors[version](weights=weights)
+
+    # cambiar head
+    in_features = model.head.in_features
+    model.head = nn.Linear(in_features, num_classes)
+
+    # freeze
+    if freeze_features:
+        for param in model.parameters():
+            param.requires_grad = False
+        for param in model.head.parameters():
+            param.requires_grad = True
+
+    return model

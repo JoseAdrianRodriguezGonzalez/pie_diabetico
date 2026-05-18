@@ -4,7 +4,13 @@ def get_classifier_params(model):
         return model.classifier.parameters()
     elif hasattr(model, "fc"):
         return model.fc.parameters()
+    if hasattr(model, "heads"):
+        return model.heads.parameters()
+    # Swin Transformer
+    if hasattr(model, "head"):
+        return model.head.parameters()
     else:
+        
         raise ValueError("No se encontró la capa final")
 
 def get_optimizer(model,lr=1e-4):
