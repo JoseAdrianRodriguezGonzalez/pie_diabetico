@@ -85,6 +85,23 @@ def analyze_excels(excel_dir):
                 "q1_acc": df["test_acc"].quantile(0.25),
                 "median_acc": df["test_acc"].quantile(0.50),
                 "q3_acc": df["test_acc"].quantile(0.75),
+                "mean_auc": df["auc_roc"].mean(),
+                "std_auc": df["auc_roc"].std(),
+                "min_auc": df["auc_roc"].min(),
+                "max_auc": df["auc_roc"].max(),
+                "q1_auc": df["auc_roc"].quantile(0.25),
+                "median_auc": df["auc_roc"].quantile(0.50),
+                "q3_auc": df["auc_roc"].quantile(0.75),
+
+
+                "mean_pr": df["auc_pr"].mean(),
+                "std_pr": df["auc_pr"].std(),
+                "min_pr": df["auc_pr"].min(),
+                "max_pr": df["auc_pr"].max(),
+                "q1_pr": df["auc_pr"].quantile(0.25),
+                "median_pr": df["auc_pr"].quantile(0.50),
+                "q3_pr": df["auc_pr"].quantile(0.75),
+
                 "mean_f1": df["test_f1_score"].mean(),
                 "std_f1": df["test_f1_score"].std(),
                 "min_f1": df["test_f1_score"].min(),

@@ -10,5 +10,9 @@ def make_train_stage():
             "train_loss":[],
             "val_loss":[],
             "test_loss":[],
+            "val_auc_roc":[],
+            "val_auc_pr":[],
+            "test_auc_roc":[],
+            "test_auc_pr":[]
             }
 

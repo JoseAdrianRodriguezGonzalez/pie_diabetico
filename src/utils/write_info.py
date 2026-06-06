@@ -16,5 +16,7 @@ def metrics_final(src,input):
         "tn": [tn],
         "fp": [fp],
         "fn": [fn],
-        "tp": [tp],})
+        "tp": [tp],
+        "auc_roc":input["test_auc_roc"],
+        "auc_pr":input["test_auc_pr"]})
     df.to_csv(src,index=False)

@@ -12,11 +12,12 @@ def main(args):
         path=os.path.join(args.src,str(i))
         os.makedirs(path,exist_ok=True)
         make_dir_test(path,args.models,args.submodels)
-    src="../data/raw/datasets_diabetes/DFUNET/PartB_DFU_Dataset/Infection/"
+    src1="../data/raw/datasets_diabetes/DFUNET/PartB_DFU_Dataset/Infection/"
     src_2="../data/raw/datasets_diabetes/DFUNET/PartB_DFU_Dataset/Ischaemia/"
-    
+    src=args.origin_dataset
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     for i in tqdm(range(args.test_number),desc="Tests"):
+    #    i+=2
         path_file=os.path.join(args.src,str(i)) 
         seed=args.seed+i
         args.seed=seed 
@@ -53,6 +54,8 @@ def main(args):
 
 
 if __name__=="__main__":
+    
+    #experimento para el dataset parte A
     args=Namespace(origin_dataset="../data/raw/datasets_diabetes/DFUNET/PartA_DFU_Dataset",
                     num_epochs=16,   
                    batch_size=4,
@@ -78,4 +81,32 @@ if __name__=="__main__":
                    src="../out/tests",
                    seed=42
                 )
+
+    """
+    args=Namespace(origin_dataset="../data/raw/datasets_diabetes/DFUNET/PartA_DFU_Dataset",
+                    num_epochs=30,   
+                   batch_size=8,
+                    shuffle=True,
+                    num_workers=6,
+                    drop_last=True,
+                    pin_memory=True,
+                        test_number=5,
+#                   models=["vit","swin"],
+#                   submodels={                   
+#                        "vit":["b_16","b_32"],
+#                        "swin":["t","s"]
+#                   },
+                   models=["efficientnet","vgg","resnet","googlenet","alexnet","vit","swin"],
+                   submodels={"efficientnet":["B0","B1","B2","B3","B4","B5","B6","B7"],
+                              "vgg":["11","13","16","19"],
+                              "resnet":["34","50","18","101","152"],
+                              "googlenet":[],
+                              "alexnet":[],
+                              "vit":["b_16","b_32"],
+                                "swin":["t","s"]
+                              },
+                   src="../out/tests",
+                   seed=42
+                )
+    """
     main(args)

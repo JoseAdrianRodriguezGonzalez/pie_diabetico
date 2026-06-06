@@ -3,15 +3,19 @@ from ingest.discover import images
 from ingest.split import stratified
 from ingest.dataset import DFU
 from ingest.dataloader import make_loader
-from preprocess.filters import dfu_transforms
+from preprocess.filters import dfu_transforms,dfu_transforms_train
 def pipeline_ingest(src,args):
     diccionario=images(src)
     diccionario_formato={"images":[img for label,images in diccionario.items() for img in images],
-                         "labels":[label for label,images in diccionario.items() for _ in images]}
+                         "labels":[label for label,images in diccionario.items() for _ in images]} 
     datos_divididos=stratified(**diccionario_formato,seed=args.seed)
     label_to_index = {
         "Abnormal": 1,
         "Normal": 0
+#        "Aug-Negative": 1,
+#        "Aug-Positive": 0
+    
+
     }
     train_df=DFU("train",datos_divididos,dfu_transforms(),label_to_index)
     val_df=DFU("val",datos_divididos,dfu_transforms(),label_to_index)

@@ -1,6 +1,6 @@
 import torch
 from ingest.dataloader import make_loader
-from evaluation.metrics import compute_accuracy,compute_f1, matriz
+from evaluation.metrics import compute_accuracy,compute_f1, matriz,compute_auc_pr,compute_auc_roc
 def train_routine(train_state,data,model,function,optimizer,device):
     runing_loss=0.0
     running_accuracy=0.0
@@ -42,6 +42,7 @@ def eval_routine(train_state,data,model,function,device,prefix="val"):
      
     model.eval()
     all_preds = []
+    all_logits=[]
     all_targets = []
     with torch.no_grad():
         for batch_index,(x,y) in enumerate(data):
@@ -55,18 +56,22 @@ def eval_routine(train_state,data,model,function,device,prefix="val"):
 
 
             pred = torch.argmax(y_pred, dim=1)
+            all_logits.append(y_pred.detach().cpu())
             all_preds.extend(pred.cpu().numpy())
             all_targets.extend(y.cpu().numpy())
 
         y_pred_t = torch.tensor(all_preds)
         y_true_t = torch.tensor(all_targets)
-
+        y_logits=torch.cat(all_logits)
         acc = (y_pred_t == y_true_t).float().mean().item()
         f1 = compute_f1(y_pred_t, y_true_t)
-        
+        auc_roc=compute_auc_roc(y_logits,y_true_t)
+        auc_pr=compute_auc_pr(y_logits,y_true_t)
         train_state[f"{prefix}_loss"].append(running_loss)
         train_state[f"{prefix}_acc"].append(acc) 
         train_state[f"{prefix}_f1_score"].append(f1)
+        train_state[f"{prefix}_auc_roc"].append(auc_roc)
+        train_state[f"{prefix}_auc_pr"].append(auc_pr)
         if prefix=="test":
             cm=matriz(all_targets,all_preds)
             train_state[f"cm"]=cm 

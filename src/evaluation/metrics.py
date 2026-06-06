@@ -1,5 +1,21 @@
 import torch
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import roc_auc_score,average_precision_score
+import torch.nn.functional as F
+def compute_auc_roc(y_logits,y_target):
+    probs=F.softmax(y_logits,dim=1)[:,1]
+    if len(set(y_target)) < 2:
+        return 0.0
+    return roc_auc_score(y_target.cpu().numpy(),
+                         probs.detach().cpu().numpy()) 
+def compute_auc_pr(y_logits,y_target):
+    probs=F.softmax(y_logits,dim=1)[:,1]
+    if len(set(y_target)) < 2:
+        return 0.0
+    return average_precision_score(
+        y_target.cpu().numpy(),
+        probs.detach().cpu().numpy()
+    )
 def compute_accuracy(y_pred,y_target):
     _,y_pred_indices=y_pred.max(dim=1)
     n_correct = torch.eq(y_pred_indices,y_target).sum().item()
