@@ -15,7 +15,9 @@ def extract_files(src_root):
                              "tn": [],
                             "fp": [],
                             "fn": [],
-                            "tp": []}
+                            "tp": [],
+                             "auc_roc":[],
+                             "auc_pr":[]}
                 for submodel in sorted(subdirs):
                     submodel_path = os.path.join(model_path, submodel)
                     df=pd.read_csv(os.path.join(submodel_path,"test_metrics.csv"))
@@ -26,6 +28,8 @@ def extract_files(src_root):
                     diccionario["fp"].append(df["fp"].iloc[0])
                     diccionario["fn"].append(df["fn"].iloc[0])
                     diccionario["tp"].append(df["tp"].iloc[0])
+                    diccionario["auc_roc"].append(df["auc_roc"].iloc[0])
+                    diccionario["auc_pr"].append(df["auc_pr"].iloc[0])
                     diccionario["submodel"].append(submodel)
                 df_dicc=pd.DataFrame(diccionario)
                 df_dicc.to_csv(os.path.join(model_path,"test_metrics.csv"),
@@ -127,5 +131,5 @@ for model in os.listdir("out/global_metric"):
 df=analyze_excels("out/global_metric/excel/")
 df["robust_acc"]=df["mean_acc"]-df["std_acc"]
 df["robust_f1"]=df["mean_f1"]-df["std_f1"]
-df.to_csv("make_unique.csv")
+df.to_csv("PartB.csv")
 

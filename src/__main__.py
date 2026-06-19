@@ -12,9 +12,9 @@ def main(args):
         path=os.path.join(args.src,str(i))
         os.makedirs(path,exist_ok=True)
         make_dir_test(path,args.models,args.submodels)
-    src1="../data/raw/datasets_diabetes/DFUNET/PartB_DFU_Dataset/Infection/"
+    src="../data/raw/datasets_diabetes/DFUNET/PartB_DFU_Dataset/Infection/"
     src_2="../data/raw/datasets_diabetes/DFUNET/PartB_DFU_Dataset/Ischaemia/"
-    src=args.origin_dataset
+    src1=args.origin_dataset
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     for i in tqdm(range(args.test_number),desc="Tests"):
     #    i+=2
@@ -56,6 +56,7 @@ def main(args):
 if __name__=="__main__":
     
     #experimento para el dataset parte A
+    """
     args=Namespace(origin_dataset="../data/raw/datasets_diabetes/DFUNET/PartA_DFU_Dataset",
                     num_epochs=16,   
                    batch_size=4,
@@ -84,10 +85,10 @@ if __name__=="__main__":
 
     """
     args=Namespace(origin_dataset="../data/raw/datasets_diabetes/DFUNET/PartA_DFU_Dataset",
-                    num_epochs=30,   
+                    num_epochs=40,   
                    batch_size=8,
                     shuffle=True,
-                    num_workers=6,
+                    num_workers=7,
                     drop_last=True,
                     pin_memory=True,
                         test_number=5,
@@ -108,5 +109,5 @@ if __name__=="__main__":
                    src="../out/tests",
                    seed=42
                 )
-    """
+    
     main(args)
