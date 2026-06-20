@@ -17,7 +17,7 @@ def pipeline_ingest(src,args):
     
 
     }
-    train_df=DFU("train",datos_divididos,dfu_transforms_train(),label_to_index)
+    train_df=DFU("train",datos_divididos,dfu_transforms(),label_to_index)
     val_df=DFU("val",datos_divididos,dfu_transforms(),label_to_index)
     test_df=DFU("test",datos_divididos,dfu_transforms(),label_to_index)
     train_loader=make_loader(train_df,

@@ -21,7 +21,7 @@ def main(args):
         path_file=os.path.join(args.src,str(i)) 
         seed=args.seed+i
         args.seed=seed 
-        df_train,df_val,df_test,index_to_label=pipeline_ingest(src,args)
+        df_train,df_val,df_test,index_to_label=pipeline_ingest(src_2,args)
         classes = [index_to_label[i] for i in range(len(index_to_label))]
         for m in tqdm(args.models,desc=f"models (test {i})",leave=False):
             if len(args.submodels[m])==0:
