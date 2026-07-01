@@ -131,5 +131,5 @@ for model in os.listdir("out/global_metric"):
 df=analyze_excels("out/global_metric/excel/")
 df["robust_acc"]=df["mean_acc"]-df["std_acc"]
 df["robust_f1"]=df["mean_f1"]-df["std_f1"]
-df.to_csv("PartB.csv")
+df.to_csv("PartB_infection.csv")
 

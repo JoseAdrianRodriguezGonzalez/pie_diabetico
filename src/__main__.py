@@ -17,11 +17,13 @@ def main(args):
     src1=args.origin_dataset
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     for i in tqdm(range(args.test_number),desc="Tests"):
-    #    i+=2
+        i+=3
+        print(i)
+         
         path_file=os.path.join(args.src,str(i)) 
         seed=args.seed+i
         args.seed=seed 
-        df_train,df_val,df_test,index_to_label=pipeline_ingest(src_2,args)
+        df_train,df_val,df_test,index_to_label=pipeline_ingest(src,args)
         classes = [index_to_label[i] for i in range(len(index_to_label))]
         for m in tqdm(args.models,desc=f"models (test {i})",leave=False):
             if len(args.submodels[m])==0:
@@ -88,26 +90,27 @@ if __name__=="__main__":
                     num_epochs=40,   
                    batch_size=8,
                     shuffle=True,
-                    num_workers=7,
+                    num_workers=6,
                     drop_last=True,
                     pin_memory=True,
-                        test_number=5,
-#                   models=["vit","swin"],
-#                   submodels={                   
+                        test_number=1,
+                   models=["swin"],
+                   submodels={                   
 #                        "vit":["b_16","b_32"],
-#                        "swin":["t","s"]
-#                   },
-                   models=["efficientnet","vgg","resnet","googlenet","alexnet","vit","swin"],
-                   submodels={"efficientnet":["B0","B1","B2","B3","B4","B5","B6","B7"],
-                              "vgg":["11","13","16","19"],
-                              "resnet":["34","50","18","101","152"],
-                              "googlenet":[],
-                              "alexnet":[],
-                              "vit":["b_16","b_32"],
-                                "swin":["t","s"]
-                              },
+                        "swin":["s"]
+                   },
+   #                models=["efficientnet","vgg","resnet","googlenet","alexnet","vit","swin"],
+  #                 submodels={"efficientnet":["B0","B1","B2","B3","B4","B5","B6","B7"],
+  #                            "vgg":["11","13","16","19"],
+  #                            "resnet":["34","50","18","101","152"],
+  #                            "googlenet":[],
+  #                            "alexnet":[],
+  #                            "vit":["b_16","b_32"],
+  #                              "swin":["t","s"]
+   #                           },
                    src="../out/tests",
-                   seed=42
+                   seed=44
+
                 )
     
     main(args)
